@@ -8,7 +8,6 @@ import glob
 
 from common import *
 from discord.ext import commands
-from sql import SQL
 
 # Define logging levels
 loglevel = os.environ.get("LOGLEVEL", "INFO").upper()
@@ -26,22 +25,15 @@ if loglevel == "INFO":
 
 intents = discord.Intents.default()
 intents.members = True
-intents.presences = True
 
 default_help = commands.DefaultHelpCommand(
     no_category="Other Commands",
 )
 
 
-class TemplateBot(commands.Bot):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.connection = SQL._get_db_connection()
-
-
-bot = TemplateBot(
-    command_prefix=["template ", "Template "],
-    description="TemplateBot, update my description",
+bot = commands.Bot(
+    command_prefix=["aeguir ", "Aeguir "],
+    description="Aeguir Penguin, a SIBR bot",
     help_command=default_help,
     intents=intents,
 )

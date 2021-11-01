@@ -4,6 +4,7 @@ from discord.ext import commands
 
 GUILDS = {
     "dannybd-test": 432741711786278913,
+    "sibr": 738107179294523402,
 }
 
 

@@ -1,4 +1,4 @@
-# template-discord-bot, a Discord bot for ...something
+# Aeguir Penguin (🐧), a SIBR bot
 
 `bot.py` is a Discord bot which can interface with SQL if you want it to
 
