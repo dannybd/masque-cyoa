@@ -15,6 +15,17 @@ def caretaker_role(guild):
     return guild.get_role(role_id)
 
 
+REPORT_CHANNELS = {
+    "sibr": 738589319656112229,
+    "dannybd-test": 904863674806718506,
+}
+
+
+def report_channel(guild):
+    channel_id = REPORT_CHANNELS[get_guild_key(guild)]
+    return guild.get_channel(channel_id)
+
+
 EMOJIS = [emojize(":pause_button:"), emojize(":stop_sign:")]
 
 
@@ -73,7 +84,6 @@ class PauseStop(commands.Cog):
 
 
 async def send_report(guild, emoji, actor, message, from_reaction=False):
-    report_channel = guild.get_channel(904863674806718506)
     channel = message.channel
     report_message = "{}: {} in {}".format(
         caretaker_role(guild).mention,
@@ -94,7 +104,7 @@ async def send_report(guild, emoji, actor, message, from_reaction=False):
     embed.add_field(
         name="Link", value="[Jump to Message]({})".format(message.jump_url), inline=True
     )
-    await report_channel.send(report_message, embed=embed)
+    await report_channel(guild).send(report_message, embed=embed)
 
 
 def setup(bot):
