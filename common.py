@@ -1,5 +1,7 @@
 import configparser
+import discord
 from discord.ext import commands
+from hashlib import md5
 
 
 GUILDS = {
@@ -20,6 +22,16 @@ def is_in_guilds(*guild_keys):
         return get_guild_key(ctx.guild) in guild_keys
 
     return commands.check(predicate)
+
+
+def member_has_role(member, role_id):
+    return role_id in [role.id for role in member.roles]
+
+
+def get_stable_embed_color(msg):
+    hash = md5(msg.encode("utf-8")).hexdigest()
+    hue = int(hash, 16) / 16 ** len(hash)
+    return discord.Color.from_hsv(hue, 0.655, 1)
 
 
 config = configparser.ConfigParser()

@@ -1,19 +1,22 @@
 """ Alerts mods when pause and stop reacts are used """
-from common import get_guild_key
+from common import get_guild_key, get_stable_embed_color, member_has_role
 import discord
 from discord.ext import commands
 from emoji import emojize
 
 CARETAKER_ROLES = {
-    'sibr': 738108360964178082,
-    'dannybd-test': 904974590986559508,
+    "sibr": 738108360964178082,
+    "dannybd-test": 904974590986559508,
 }
+
 
 def caretaker_role(guild):
     role_id = CARETAKER_ROLES[get_guild_key(guild)]
     return guild.get_role(role_id)
 
+
 EMOJIS = [emojize(":pause_button:"), emojize(":stop_sign:")]
+
 
 class PauseStop(commands.Cog):
     def __init__(self, bot):
@@ -51,18 +54,9 @@ class PauseStop(commands.Cog):
             # Not the first one of these
             return
         actor = payload.member
-        if caretaker_role(guild).id in [role.id for role in actor.roles]:
+        if member_has_role(actor, caretaker_role(guild).id):
             return
-        report_channel = guild.get_channel(904863674806718506)
-        await report_channel.send(
-            ("**Heads up {}:** {} posted in {} by {}: \n" + "{}").format(
-                caretaker_role(guild).mention,
-                emoji,
-                channel.mention,
-                actor.mention,
-                message.jump_url,
-            )
-        )
+        await send_report(guild, emoji, actor, message, from_reaction=True)
 
     @commands.Cog.listener("on_message")
     async def handle_messages(self, message):
@@ -73,18 +67,34 @@ class PauseStop(commands.Cog):
         if actor == self.bot.user:
             return
         guild = message.guild
-        if caretaker_role(guild).id in [role.id for role in actor.roles]:
+        if member_has_role(actor, caretaker_role(guild).id):
             return
-        report_channel = guild.get_channel(904863674806718506)
-        await report_channel.send(
-            ("**Heads up {}:** {} posted in {} by {}: \n" + "{}").format(
-                caretaker_role(guild).mention,
-                emoji,
-                message.channel.mention,
-                actor.mention,
-                message.jump_url,
-            )
-        )
+        await send_report(guild, emoji, actor, message)
+
+
+async def send_report(guild, emoji, actor, message, from_reaction=False):
+    report_channel = guild.get_channel(904863674806718506)
+    channel = message.channel
+    report_message = "{}: {} in {}".format(
+        caretaker_role(guild).mention,
+        emoji,
+        channel.mention,
+    )
+    content = message.content
+    embed = discord.Embed(
+        color=get_stable_embed_color(str(channel)),
+        title="{} in #{}".format(emoji, channel.name),
+        description="**Message:** {}\n{}".format(
+            "_({} in reaction to this message)_".format(emoji) if from_reaction else "",
+            content[:500] + "..." if len(content) > 500 else content,
+        ),
+    )
+    embed.add_field(name="Channel", value=channel.mention, inline=True)
+    embed.add_field(name="Who?", value=actor.mention, inline=True)
+    embed.add_field(
+        name="Link", value="[Jump to Message]({})".format(message.jump_url), inline=True
+    )
+    await report_channel.send(report_message, embed=embed)
 
 
 def setup(bot):
