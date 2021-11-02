@@ -66,7 +66,7 @@ class PauseStop(commands.Cog):
             return
         actor = payload.member
         if member_has_role(actor, caretaker_role(guild).id):
-            return
+            pass  # return
         await send_report(guild, emoji, actor, message, from_reaction=True)
 
     @commands.Cog.listener("on_message")
@@ -79,7 +79,7 @@ class PauseStop(commands.Cog):
             return
         guild = message.guild
         if member_has_role(actor, caretaker_role(guild).id):
-            return
+            pass  # return
         await send_report(guild, emoji, actor, message)
 
 
