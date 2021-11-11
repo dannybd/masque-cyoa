@@ -1,4 +1,4 @@
-# Aeguir Penguin (🐧), a SIBR bot
+# CYOA bot for Masquerade
 
 `bot.py` is a Discord bot which can interface with SQL if you want it to
 
