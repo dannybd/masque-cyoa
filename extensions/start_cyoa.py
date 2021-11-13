@@ -28,6 +28,11 @@ class StartCYOA(commands.Cog):
             return
         if member_is_host(actor):
             return
+        if (
+            "channels_with_trapdoors" in cyoa
+            and not message.channel.name in cyoa["channels_with_trapdoors"]
+        ):
+            return
         roles = [
             discord.utils.get(guild.roles, name=role) for role in cyoa["start_roles"]
         ]
