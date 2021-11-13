@@ -56,8 +56,13 @@ class Reacts(commands.Cog):
                 for role in cyoa["start_roles"]
             ]
             await actor.remove_roles(*roles)
-        if "dm" in button:
-            await actor.send(button["dm"])
+        dm_cyoa = cyoa["dms"].get(button.get("dm"))
+        if dm_cyoa:
+            if "role" in dm_cyoa:
+                await actor.add_roles(
+                    discord.utils.get(guild.roles, name=dm_cyoa["role"])
+                )
+            await actor.send(dm_cyoa["dm"])
 
 
 def setup(bot):

@@ -1,6 +1,7 @@
 {
   "host_role": "Society Caretaker",
   "start_phrase": "center stage",
+  "start_message_dump_channel": "testing-the-name",
   "start_roles": ["explorer", "ch2"],
   "channels": {
     "channel2": {
@@ -22,8 +23,20 @@
           "emoji": "🐟",
           "desc": "Go to Channel 2",
           "channel": "channel2"
+        },
+        {
+          "emoji": "💚",
+          "desc": "Get a DM saying you won",
+          "channel": "play-again",
+          "dm": "win ending"
         }
       ]
+    }
+  },
+  "dms": {
+    "win ending": {
+      "dm": "You won!",
+      "role": "winner winner chicken dinner"
     }
   }
 }
