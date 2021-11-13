@@ -29,9 +29,29 @@ def member_is_host(member):
     return member_has_role(member, cyoa["host_role"])
 
 
-@lru_cache(maxsize=128)
+CACHE_BUSTER = 0
+
+
+def bust_cache():
+    global CACHE_BUSTER
+    CACHE_BUSTER += 1
+    return CACHE_BUSTER
+
+
 def get_cyoa_config(guild):
-    with open("data/{}.json".format(get_guild_key(guild)), "r") as f:
+    global CACHE_BUSTER
+    return get_cyoa_config_impl(guild, CACHE_BUSTER)
+
+
+@lru_cache(maxsize=128)
+def get_cyoa_config_impl(guild, cache_counter):
+    key = get_guild_key(guild)
+    logging.info(
+        "Reloading data for GUILD {}, cache counter = {}".format(
+            key.upper(), cache_counter
+        )
+    )
+    with open("data/{}.json".format(key), "r") as f:
         return json.load(f)
 
 

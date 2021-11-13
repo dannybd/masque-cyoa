@@ -1,7 +1,7 @@
 """ Setup each channel correctly at its start """
 import discord
 
-from common import get_cyoa_config, member_is_host
+from common import bust_cache, get_cyoa_config, member_is_host
 from discord.ext import commands
 
 
@@ -38,6 +38,16 @@ class SetupCYOA(commands.Cog):
         message = await channel.send(content)
         for button in buttons:
             await message.add_reaction(button["emoji"])
+
+    @commands.command(hidden=True)
+    async def reload(self, ctx):
+        if not member_is_host(ctx.author):
+            return
+        if ctx.author.bot:
+            return
+        new_val = bust_cache()
+        get_cyoa_config(ctx.guild)
+        await ctx.channel.send("Cache index now = {}".format(new_val))
 
 
 def setup(bot):
