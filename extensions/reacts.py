@@ -52,7 +52,8 @@ class Reacts(commands.Cog):
         else:
             # We've escaped! Remove the roles
             start_roles = [
-                discord.utils.get(guild.roles, name=role) for role in cyoa["start_roles"]
+                discord.utils.get(guild.roles, name=role)
+                for role in cyoa["start_roles"]
             ]
             await actor.remove_roles(*roles)
         if "dm" in button:

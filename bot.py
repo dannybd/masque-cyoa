@@ -32,7 +32,7 @@ default_help = commands.DefaultHelpCommand(
 
 
 bot = commands.Bot(
-    command_prefix=["cyoa ", "!"],
+    command_prefix=["cyoa "],
     description="???",
     help_command=default_help,
     intents=intents,
