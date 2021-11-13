@@ -2,6 +2,7 @@ import configparser
 import discord
 import json
 import logging
+import traceback
 
 from discord.ext import commands
 from functools import lru_cache
@@ -35,19 +36,21 @@ CACHE_BUSTER = 0
 def bust_cache(guild):
     global CACHE_BUSTER
     CACHE_BUSTER += 1
-    try:
-        get_cyoa_config(guild)
-    except Exception as e:
-        exc = "{}: {}".format(type(e).__name__, traceback.format_exc())
-        logging.warning("Failed to read CYOA config {}\n{}".format(extension, exc))
-        CACHE_BUSTER -= 1
-
+    get_cyoa_config(guild)
     return CACHE_BUSTER
 
 
 def get_cyoa_config(guild):
     global CACHE_BUSTER
-    return get_cyoa_config_impl(guild, CACHE_BUSTER)
+    while True:
+        try:
+            return get_cyoa_config_impl(guild, CACHE_BUSTER)
+        except Exception as e:
+            if CACHE_BUSTER == 0:
+                raise e
+            exc = "{}: {}".format(type(e).__name__, traceback.format_exc())
+            logging.warning("Failed to read CYOA config\n{}".format(exc))
+            CACHE_BUSTER -= 1
 
 
 @lru_cache(maxsize=128)
