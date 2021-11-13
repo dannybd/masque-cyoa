@@ -21,8 +21,14 @@ class SetupCYOA(commands.Cog):
         if channel.name not in cyoa["channels"]:
             return
         channel_cyoa = cyoa["channels"][channel.name]
-        message = await channel.send(channel_cyoa["content"])
-        for button in channel_cyoa["buttons"]:
+        content = channel_cyoa["content"]
+        buttons = channel_cyoa["buttons"]
+        if buttons:
+            content += "\n"
+        for button in buttons:
+            content += "\n{emoji}  {desc}".format(**button)
+        message = await channel.send(content)
+        for button in buttons:
             await message.add_reaction(button["emoji"])
 
 
