@@ -66,7 +66,7 @@ class Reacts(commands.Cog):
                 await actor.add_roles(
                     discord.utils.get(guild.roles, name=dm_cyoa["role"])
                 )
-            await actor.send(dm_cyoa["dm"])
+            await actor.send(dm_cyoa["content"])
 
 
 def setup(bot):
