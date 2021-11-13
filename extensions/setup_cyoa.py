@@ -5,7 +5,7 @@ from discord.ext import commands
 from emoji import emojize
 
 
-class StartCYOA(commands.Cog):
+class SetupCYOA(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -27,5 +27,5 @@ class StartCYOA(commands.Cog):
 
 
 def setup(bot):
-    cog = StartCYOA(bot)
+    cog = SetupCYOA(bot)
     bot.add_cog(cog)
