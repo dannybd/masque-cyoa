@@ -1,14 +1,12 @@
 """ Puts users into the experience to start """
 from common import (
     get_cyoa_config,
-    get_guild_key,
-    get_stable_embed_color,
+    log_event,
     member_has_role,
     member_is_host,
 )
 import discord
 from discord.ext import commands
-from emoji import emojize
 
 
 class StartCYOA(commands.Cog):
@@ -41,19 +39,13 @@ class StartCYOA(commands.Cog):
                 return
         await message.delete()
         await actor.add_roles(*roles)
-        start_message_dump_channel = discord.utils.get(
-            guild.channels,
-            name=cyoa.get("start_message_dump_channel"),
+        await log_event(
+            guild=guild,
+            actor=actor,
+            title="Trapdoor activated!",
+            description=message.content,
+            channel=message.channel,
         )
-        if start_message_dump_channel:
-            embed = discord.Embed(
-                color=get_stable_embed_color(str(message.channel)),
-                title="Trapdoor activated!",
-                description=message.content,
-            )
-            embed.add_field(name="Channel", value=message.channel.mention, inline=True)
-            embed.add_field(name="Who?", value=actor.mention, inline=True)
-            await start_message_dump_channel.send(embed=embed)
 
 
 def setup(bot):

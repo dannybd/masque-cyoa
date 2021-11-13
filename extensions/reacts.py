@@ -1,8 +1,8 @@
 """ Auto-delete non-host message in the channels """
-from common import get_guild_key, member_has_role, member_is_host, get_cyoa_config
 import discord
+
+from common import get_cyoa_config, log_event
 from discord.ext import commands
-from emoji import emojize
 
 
 class Reacts(commands.Cog):
@@ -67,6 +67,11 @@ class Reacts(commands.Cog):
                     discord.utils.get(guild.roles, name=dm_cyoa["role"])
                 )
             await actor.send(dm_cyoa["content"])
+            await log_event(
+                guild=guild,
+                actor=actor,
+                title="Guest reached {}!".format(button["dm"]),
+            )
 
 
 def setup(bot):

@@ -1,8 +1,9 @@
 """ Auto-delete non-host message in the channels """
-from common import get_guild_key, member_has_role, member_is_host, get_cyoa_config
 import discord
-from discord.ext import commands
 import re
+
+from common import get_cyoa_config, log_event, member_is_host
+from discord.ext import commands
 
 
 class Special(commands.Cog):
@@ -27,11 +28,16 @@ class Special(commands.Cog):
             pattern = re.compile("press|touch|push|button|click")
             if pattern.match(content):
                 await actor.add_roles(
-                    # discord.utils.get(guild.roles, name="fxbox"),
+                    discord.utils.get(guild.roles, name="fx box"),
                     discord.utils.get(guild.roles, name="atrium"),
                 )
                 await actor.remove_roles(
                     discord.utils.get(guild.roles, name="south tunnels"),
+                )
+                await log_event(
+                    guild=guild,
+                    actor=actor,
+                    title="Atrium found!",
                 )
 
 

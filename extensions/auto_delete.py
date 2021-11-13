@@ -1,8 +1,8 @@
 """ Auto-delete non-host message in the channels """
-from common import get_guild_key, member_has_role, member_is_host, get_cyoa_config
 import discord
+
+from common import get_cyoa_config, member_is_host
 from discord.ext import commands
-from emoji import emojize
 
 
 class AutoDelete(commands.Cog):
