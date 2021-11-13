@@ -63,6 +63,12 @@ class Reacts(commands.Cog):
                 discord.utils.get(guild.roles, name=cyoa["mute_role"]),
                 *cyoa_roles,
             )
+            await log_event(
+                guild=guild,
+                actor=actor,
+                title="Guest exited the catacombs.",
+                channel=channel,
+            )
         dm_cyoa = cyoa["dms"].get(button.get("dm"))
         if dm_cyoa:
             if "role" in dm_cyoa:
