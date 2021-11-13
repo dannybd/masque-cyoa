@@ -2,36 +2,28 @@
   "host_role": "Society Caretaker",
   "start_phrase": "center stage",
   "start_roles": ["explorer", "ch2"],
-  "channels": [
-    {
-      "channel_id": "904863674806718506",
-      "channel_name": "channel2",
-      "role_id": "908458910241914881",
-      "role_name": "ch2",
+  "channels": {
+    "channel2": {
+      "role": "ch2",
       "content": "You have arrived in Channel 2. Will you venture forward?",
       "buttons": [
         {
           "emoji": "🇫🇷",
           "desc": "Go to Channel 3",
-          "channel_id": "904863674806718506",
-          "channel_name": "channel3"
+          "channel": "channel3"
         }
       ]
     },
-    {
-      "channel_id": "908458738682298389",
-      "channel_name": "channel3",
-      "role_id": "908458951723610122",
-      "role_name": "ch3",
+    "channel3": {
+      "role": "ch3",
       "content": "You have arrived in Channel 3. Will you venture _back_?",
       "buttons": [
         {
           "emoji": "🐟",
           "desc": "Go to Channel 2",
-          "channel_id": "904863674806718506",
-          "channel_name": "channel2"
+          "channel": "channel2"
         }
       ]
     }
-  ]
+  }
 }

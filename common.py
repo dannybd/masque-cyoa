@@ -38,7 +38,7 @@ def member_is_host(member):
 
 @lru_cache(maxsize=128)
 def get_cyoa_config(guild):
-    with open("data.{}.json".format(get_guild_key(guild)), "r") as f:
+    with open("data/{}.json".format(get_guild_key(guild)), "r") as f:
         return json.load(f)
 
 
