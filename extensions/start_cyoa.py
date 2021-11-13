@@ -12,6 +12,8 @@ class StartCYOA(commands.Cog):
     @commands.Cog.listener("on_message")
     async def handle_messages(self, message):
         guild = message.guild
+        if not guild:
+            return
         cyoa = get_cyoa_config(guild)
         if not cyoa["start_phrase"] in message.content.lower():
             return

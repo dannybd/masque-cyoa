@@ -11,6 +11,8 @@ class AutoDelete(commands.Cog):
 
     @commands.Cog.listener("on_message")
     async def handle_messages(self, message):
+        if not message.guild:
+            return
         cyoa = get_cyoa_config(message.guild)
         if message.channel.name not in cyoa["channels"]:
             return
