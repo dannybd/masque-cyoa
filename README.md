@@ -1,6 +1,10 @@
 # CYOA bot for Masquerade
 
-`bot.py` is a Discord bot which can interface with SQL if you want it to
+Extensions:
+* `start_cyoa` defines the trapdoor behavior
+* `setup_cyoa` initializes CYOA channels with their text and buttons
+* `auto_delete` ensures messages are erased in CYOA channels
+* `reacts` handle movement between channels by way of rooms
 
 ## Usage
 ```
