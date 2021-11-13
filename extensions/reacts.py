@@ -44,7 +44,7 @@ class Reacts(commands.Cog):
             discord.utils.get(guild.roles, name=channel_cyoa["role"])
         )
         await message.remove_reaction(emoji, actor)
-        destination_channel_cyoa = cyoa["channels"].get(button["channel"])
+        destination_channel_cyoa = cyoa["channels"].get(button.get("channel"))
         if destination_channel_cyoa:
             await actor.add_roles(
                 discord.utils.get(guild.roles, name=destination_channel_cyoa["role"])
