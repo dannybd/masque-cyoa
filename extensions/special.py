@@ -23,11 +23,11 @@ class Special(commands.Cog):
         if member_is_host(actor):
             return
         content = message.content.lower()
-        if message.channel.name == "the-atrium":
+        if message.channel.name == "south-tunnels":
             pattern = re.compile("press|touch|push|button|click")
             if pattern.match(content):
                 await actor.add_roles(
-                    discord.utils.get(guild.roles, name="fxbox"),
+                    # discord.utils.get(guild.roles, name="fxbox"),
                     discord.utils.get(guild.roles, name="atrium"),
                 )
                 await actor.remove_roles(
