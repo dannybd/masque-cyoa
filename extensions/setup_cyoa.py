@@ -30,6 +30,7 @@ class SetupCYOA(commands.Cog):
         message = await channel.send(content)
         for button in buttons:
             await message.add_reaction(button["emoji"])
+        await ctx.message.delete()
 
 
 def setup(bot):
