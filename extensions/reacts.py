@@ -44,11 +44,19 @@ class Reacts(commands.Cog):
             discord.utils.get(guild.roles, name=channel_cyoa["role"])
         )
         await message.remove_reaction(emoji, actor)
-        destination_channel_cyoa = cyoa["channels"][button["channel"]]
-        await actor.add_roles(
-            discord.utils.get(guild.roles, name=destination_channel_cyoa["role"])
-        )
-        await actor.send(button["desc"])
+        destination_channel_cyoa = cyoa["channels"].get(button["channel"])
+        if destination_channel_cyoa:
+            await actor.add_roles(
+                discord.utils.get(guild.roles, name=destination_channel_cyoa["role"])
+            )
+        else:
+            # We've escaped! Remove the roles
+            start_roles = [
+                discord.utils.get(guild.roles, name=role) for role in cyoa["start_roles"]
+            ]
+            await actor.remove_roles(*roles)
+        if "dm" in button:
+            await actor.send(button["dm"])
 
 
 def setup(bot):
