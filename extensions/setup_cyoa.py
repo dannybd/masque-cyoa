@@ -21,6 +21,14 @@ class SetupCYOA(commands.Cog):
         if channel.name not in cyoa["channels"]:
             return
         channel_cyoa = cyoa["channels"][channel.name]
+        await channel.purge()
+        await channel.edit(sync_permissions=True)
+        if "role" in channel_cyoa:
+            await channel.set_permissions(
+                discord.utils.get(ctx.guild.roles, name=channel_cyoa["role"]),
+                read_messages=True,
+                send_messages=True,
+            )
         content = channel_cyoa["content"]
         buttons = channel_cyoa["buttons"]
         if buttons:
@@ -30,7 +38,6 @@ class SetupCYOA(commands.Cog):
         message = await channel.send(content)
         for button in buttons:
             await message.add_reaction(button["emoji"])
-        await ctx.message.delete()
 
 
 def setup(bot):
