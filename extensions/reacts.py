@@ -55,11 +55,14 @@ class Reacts(commands.Cog):
             cyoa_roles = [
                 role
                 for role in guild.roles
-                if role.name in cyoa["start_roles"]
-                or role.name
+                if role.name
                 in [c["role"] for c in cyoa["channels"].values() if "role" in c]
             ]
-            await actor.remove_roles(*cyoa_roles)
+            await actor.remove_roles(
+                # Start with removing mute role, so everything reappears immediately
+                discord.utils.get(guild.roles, name=cyoa["mute_role"]),
+                *cyoa_roles,
+            )
         dm_cyoa = cyoa["dms"].get(button.get("dm"))
         if dm_cyoa:
             if "role" in dm_cyoa:
@@ -71,6 +74,7 @@ class Reacts(commands.Cog):
                 guild=guild,
                 actor=actor,
                 title="Guest reached {}!".format(button["dm"]),
+                channel=channel,
             )
 
 

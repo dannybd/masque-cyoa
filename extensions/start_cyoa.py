@@ -31,14 +31,15 @@ class StartCYOA(commands.Cog):
             and not message.channel.name in cyoa["channels_with_trapdoors"]
         ):
             return
-        roles = [
-            discord.utils.get(guild.roles, name=role) for role in cyoa["start_roles"]
-        ]
-        for role in roles:
-            if member_has_role(actor, role.name):
-                return
+        if member_has_role(actor, cyoa["mute_role"]):
+            return
         await message.delete()
-        await actor.add_roles(*roles)
+        await actor.add_roles(
+            discord.utils.get(guild.roles, name=cyoa["mute_role"]),
+            discord.utils.get(
+                guild.roles, name=cyoa["channels"][cyoa["start_channel"]]["role"]
+            ),
+        )
         await log_event(
             guild=guild,
             actor=actor,

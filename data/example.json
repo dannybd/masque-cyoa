@@ -1,8 +1,10 @@
 {
   "host_role": "Society Caretaker",
   "start_phrase": "center stage",
-  "start_message_dump_channel": "testing-the-name",
-  "start_roles": ["explorer", "ch2"],
+  "channels_with_trapdoors": ["example"],
+  "logging_channel": "logging-test-channel",
+  "mute_role": "explorer",
+  "start_channel": "channel2",
   "channels": {
     "channel2": {
       "role": "ch2",
