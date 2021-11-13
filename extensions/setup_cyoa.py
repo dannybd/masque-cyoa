@@ -45,8 +45,9 @@ class SetupCYOA(commands.Cog):
             return
         if ctx.author.bot:
             return
-        new_val = bust_cache()
-        get_cyoa_config(ctx.guild)
+        if not ctx.guild:
+            return
+        new_val = bust_cache(ctx.guild)
         await ctx.channel.send("Cache index now = {}".format(new_val))
 
 

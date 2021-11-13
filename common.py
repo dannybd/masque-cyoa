@@ -32,9 +32,16 @@ def member_is_host(member):
 CACHE_BUSTER = 0
 
 
-def bust_cache():
+def bust_cache(guild):
     global CACHE_BUSTER
     CACHE_BUSTER += 1
+    try:
+        get_cyoa_config(guild)
+    except Exception as e:
+        exc = "{}: {}".format(type(e).__name__, traceback.format_exc())
+        logging.warning("Failed to read CYOA config {}\n{}".format(extension, exc))
+        CACHE_BUSTER -= 1
+
     return CACHE_BUSTER
 
 
