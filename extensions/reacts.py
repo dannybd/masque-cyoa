@@ -40,22 +40,26 @@ class Reacts(commands.Cog):
         if not button:
             return
         actor = payload.member
-        await actor.remove_roles(
-            discord.utils.get(guild.roles, name=channel_cyoa["role"])
-        )
         await message.remove_reaction(emoji, actor)
+        if "role" in channel_cyoa:
+            await actor.remove_roles(
+                discord.utils.get(guild.roles, name=channel_cyoa["role"])
+            )
         destination_channel_cyoa = cyoa["channels"].get(button.get("channel"))
         if destination_channel_cyoa:
             await actor.add_roles(
                 discord.utils.get(guild.roles, name=destination_channel_cyoa["role"])
             )
         else:
-            # We've escaped! Remove the roles
-            start_roles = [
-                discord.utils.get(guild.roles, name=role)
-                for role in cyoa["start_roles"]
+            # We've escaped! Remove all CYOA roles
+            cyoa_roles = [
+                role
+                for role in guild.roles
+                if role.name in cyoa["start_roles"]
+                or role.name
+                in [c["role"] for c in cyoa["channels"].values() if "role" in c]
             ]
-            await actor.remove_roles(*roles)
+            await actor.remove_roles(*cyoa_roles)
         dm_cyoa = cyoa["dms"].get(button.get("dm"))
         if dm_cyoa:
             if "role" in dm_cyoa:
